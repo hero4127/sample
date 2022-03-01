@@ -8,21 +8,21 @@ from transformers import pipeline
 BEARER_TOKEN = "AAAAAAAAAAAAAAAAAAAAAM76ZgEAAAAArUfhRKFZtet4rfTIUcXmoLP8HjA%3DdqRd6w12KVGaDE7lHuqWq7d3zaalMugEW2lAeCfXOcUVXSlShs"
 
 
-def search_twitter(query, tweet_fields,  bearer_token=BEARER_TOKEN):
+async def search_twitter(query, tweet_fields,  bearer_token=BEARER_TOKEN):
     headers = {"Authorization": "Bearer {}".format(bearer_token)}
 
     url = "https://api.twitter.com/2/tweets/search/recent?query={}&{}&max_results=100".format(
         query, tweet_fields
     )
-    response = requests.request("GET", url, headers=headers)
+    response = await requests.request("GET", url, headers=headers)
     if response.status_code != 200:
         raise Exception(response.status_code, response.text)
     return response.json()
 
 
-def search_google(keyword):
+async def search_google(keyword):
     url = f"https://news.google.com/rss/search?q={keyword}"
-    response = requests.request("GET", url,)
+    response = await requests.request("GET", url,)
     if response.status_code != 200:
         raise Exception(response.status_code, response.text)
     return response.text
